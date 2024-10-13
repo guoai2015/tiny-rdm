@@ -98,7 +98,7 @@ func (p *pubsubService) Publish(server, channel, payload string) (resp types.JSR
 }
 
 // StartSubscribe start to subscribe a channel
-func (p *pubsubService) StartSubscribe(server string) (resp types.JSResp) {
+func (p *pubsubService) StartSubscribe(server, channel string) (resp types.JSResp) {
 	item, err := p.getItem(server)
 	if err != nil {
 		resp.Msg = err.Error()
@@ -107,7 +107,10 @@ func (p *pubsubService) StartSubscribe(server string) (resp types.JSResp) {
 
 	item.closeCh = make(chan struct{})
 	item.eventName = "sub:" + strconv.Itoa(int(time.Now().Unix()))
-	item.pubsub = item.client.PSubscribe(p.ctx, "*")
+	if channel == "" {
+		channel = "*"
+	}
+	item.pubsub = item.client.PSubscribe(p.ctx, channel)
 
 	go p.processSubscribe(&item.mutex, item.pubsub.Channel(), item.closeCh, item.eventName)
 	resp.Success = true

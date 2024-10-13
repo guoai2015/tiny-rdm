@@ -32,6 +32,7 @@ const data = reactive({
     autoShowLast: true,
     ellipsisMessage: false,
     channelHistory: [],
+    subscribeChannel: '',
 })
 
 const publishData = reactive({
@@ -94,7 +95,7 @@ const columns = computed(() => [
               }
             : undefined,
         filter: (value, row) => {
-            return value === '' || !!~row.cmd.indexOf(value.toString())
+            return value === '' || !!~row.message.indexOf(value.toString())
         },
     },
 ])
@@ -127,8 +128,7 @@ const onStartSubscribe = async () => {
     if (isSubscribing.value) {
         return
     }
-
-    const { data: ret, success, msg } = await StartSubscribe(props.server)
+    const { data: ret, success, msg } = await StartSubscribe(props.server, data.subscribeChannel)
     if (!success) {
         $message.error(msg)
         return
@@ -224,6 +224,8 @@ const onPublish = async () => {
                         stroke-width="3.5"
                         t-tooltip="monitor.always_show_last"
                         @click="data.autoShowLast = !data.autoShowLast" />
+                    <n-input v-model:value="data.subscribeChannel" type="text" :placeholder="$t('pubsub.channel')" clearable />
+                    <n-input v-model:value="data.keyword" type="text" :placeholder="$t('pubsub.filter')" clearable />
                     <div class="flex-item-expand" />
                     <icon-button
                         :icon="Delete"
