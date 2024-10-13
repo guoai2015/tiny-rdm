@@ -175,7 +175,7 @@ const exThemeVars = computed(() => {
                 @select="onSelectPreferenceMenu">
                 <icon-button :icon="Config" :size="iconSize" :stroke-width="3" />
             </n-dropdown>
-            <icon-button
+            <!-- <icon-button
                 v-if="prefStore.currentLanguage === 'zh'"
                 :icon="QRCode"
                 :size="iconSize"
@@ -195,7 +195,7 @@ const exThemeVars = computed(() => {
                 :size="iconSize"
                 :tooltip-delay="100"
                 t-tooltip="ribbon.github"
-                @click="openGithub" />
+                @click="openGithub" /> -->
         </div>
 
         <!-- wechat official modal -->
