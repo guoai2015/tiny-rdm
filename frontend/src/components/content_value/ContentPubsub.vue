@@ -242,7 +242,7 @@ const onPublish = async () => {
             :columns="columns"
             :data="data.list"
             :loading="data.loading"
-            class="flex-item-expand"
+            class="flex-item-expand content-value"
             flex-height
             size="small"
             virtual-scroll />
