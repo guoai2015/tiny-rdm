@@ -283,7 +283,7 @@ const onPublish = async () => {
 </template>
 
 <style lang="scss" scoped>
-@import '@/styles/content';
+@use '@/styles/content';
 
 .total-message {
     margin: 10px 0 0;
