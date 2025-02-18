@@ -15,7 +15,7 @@ import IconButton from '@/components/common/IconButton.vue'
 import ContentEntryEditor from '@/components/content_value/ContentEntryEditor.vue'
 import Edit from '@/components/icons/Edit.vue'
 import FormatSelector from '@/components/content_value/FormatSelector.vue'
-import { decodeRedisKey } from '@/utils/key_convert.js'
+import { decodeRedisKey, nativeRedisKey } from '@/utils/key_convert.js'
 import ContentSearchInput from '@/components/content_value/ContentSearchInput.vue'
 import { formatBytes } from '@/utils/byte_convert.js'
 import copy from 'copy-text-to-clipboard'
@@ -40,7 +40,7 @@ const props = defineProps({
         default: -1,
     },
     value: {
-        type: Array,
+        type: [String, Array],
         default: () => [],
     },
     size: Number,
@@ -140,13 +140,14 @@ const valueColumn = computed(() => ({
     //     return !!~row.v.indexOf(value.toString())
     // },
     render: (row) => {
+        const val = row.dv || nativeRedisKey(row.v)
         if (isCode.value) {
-            return h('pre', { class: 'pre-wrap' }, row.dv || row.v)
+            return h('pre', { class: 'pre-wrap' }, val)
         }
         if (row.rm === true) {
-            return h('s', {}, row.dv || row.v)
+            return h('s', {}, val)
         }
-        return row.dv || row.v
+        return val
     },
 }))
 
